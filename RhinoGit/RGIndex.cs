@@ -58,6 +58,7 @@ namespace RhinoGit
 
       public void GetObjectData(SerializationInfo info, StreamingContext context)
       {
+
       }
    }
 }

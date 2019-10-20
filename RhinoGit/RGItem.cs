@@ -12,11 +12,6 @@ namespace RhinoGit
       public string geometry;
       public string attributes;
 
-      public bool EqualAttributes(RGItem otherItem)
-      {
-         return string.Equals(otherItem?.attributes, attributes);
-      }
-
       public int CompareTo(object obj)
       {
          return ((IComparable)id).CompareTo(obj);
