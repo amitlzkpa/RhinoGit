@@ -6,21 +6,25 @@ using System.Threading.Tasks;
 
 namespace RhinoGit
 {
-   class RGItem
+   class RGItem : IComparable
    {
       public Guid id;
       public string geometry;
       public string attributes;
 
-      public bool EqualGeometry(RGIndex otherItem)
+      public bool EqualGeometry(RGItem otherItem)
       {
-         return false;
+         return CompareTo(otherItem) == 0;
       }
 
-      public bool EqualAttributes(RGIndex otherItem)
+      public bool EqualAttributes(RGItem otherItem)
       {
-         return false;
+         return string.Equals(otherItem?.attributes, attributes);
       }
 
+      public int CompareTo(object obj)
+      {
+         return ((IComparable)id).CompareTo(obj);
+      }
    }
 }
