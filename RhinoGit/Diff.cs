@@ -31,23 +31,6 @@ namespace RhinoGit
       protected override Result RunCommand(RhinoDoc doc, RunMode mode)
       {
 
-         string srcHash = string.Empty;
-
-         try
-         {
-            Rhino.Input.Custom.GetString gs = new Rhino.Input.Custom.GetString();
-            gs.SetCommandPrompt("Source commit hash:");
-            gs.Get();
-            srcHash = gs.StringResult();
-         }
-         catch (Exception ex)
-         {
-            RhinoApp.WriteLine(ex.ToString());
-            return Result.Failure;
-         }
-
-         if (string.IsNullOrEmpty(srcHash)) return Result.Cancel;
-
 
          string result;
          using (RhinoGitCommand.repo)
@@ -59,7 +42,7 @@ namespace RhinoGit
             }
             CommitList.Add(null); // Added to show correct initial add
 
-            int ChangeDesired = 2; // Change difference desired
+            int ChangeDesired = 0; // Change difference desired
             var repoDifferences = RhinoGitCommand.repo.Diff.Compare<Patch>((Equals(CommitList[ChangeDesired + 1], null)) ? null : CommitList[ChangeDesired + 1].Tree, (Equals(CommitList[ChangeDesired], null)) ? null : CommitList[ChangeDesired].Tree);
             PatchEntryChanges file = null;
             try { file = repoDifferences.First(e => e.Path == RhinoGitCommand.indexFileName); }
