@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 
 using Rhino;
 using Rhino.Geometry;
 using Rhino.DocObjects;
-using Rhino.Commands;
+
+using Newtonsoft.Json.Serialization;
 
 namespace RhinoGit
 {
-   public class RGIndex
+   public class RGIndex : ISerializable
    {
       SortedList items = new SortedList();
 
@@ -53,5 +56,8 @@ namespace RhinoGit
          return true;
       }
 
+      public void GetObjectData(SerializationInfo info, StreamingContext context)
+      {
+      }
    }
 }
