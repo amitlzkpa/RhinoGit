@@ -53,6 +53,5 @@ namespace RhinoGit
          return true;
       }
 
-
    }
 }
