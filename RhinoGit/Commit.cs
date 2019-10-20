@@ -12,11 +12,6 @@ namespace RhinoGit
    public class Commit : Command
    {
 
-      string indexFileName = "index.json";
-      string gitPath;
-      Repository repo;
-
-
 
       static Commit _instance;
       public Commit()
@@ -53,31 +48,24 @@ namespace RhinoGit
 
          if (string.IsNullOrEmpty(commitMessgae)) return Result.Cancel;
 
-         CreateIfNotThere();
-         repo = new Repository(gitPath);
-
 
          RGIndex rgi = new RGIndex(doc.Objects);
-         string path = Path.Combine(repo.Info.WorkingDirectory, indexFileName);
+         string path = Path.Combine(RhinoGitCommand.repo.Info.WorkingDirectory, RhinoGitCommand.indexFileName);
          string json = RGIndexSerializer.GetTextFromIndex(rgi);
          File.WriteAllText(path, json);
 
-         repo.Index.Add(indexFileName);
-         repo.Index.Write();
+         RhinoGitCommand.repo.Index.Add(RhinoGitCommand.indexFileName);
+         RhinoGitCommand.repo.Index.Write();
 
          Signature author = new Signature("amit", "@amitlzkpa", DateTime.Now);
          Signature committer = author;
 
-         LibGit2Sharp.Commit commit = repo.Commit(commitMessgae, author, committer);
+         LibGit2Sharp.Commit commit = RhinoGitCommand.repo.Commit(commitMessgae, author, committer);
 
          return Result.Success;
       }
 
 
-      private void CreateIfNotThere()
-      {
-         gitPath = Repository.Init("C:\\DATA\\amit\\rgit\\gits\\alpha\\");
-      }
 
    }
 }

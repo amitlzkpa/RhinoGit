@@ -10,10 +10,29 @@ using Rhino.Input.Custom;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
+using LibGit2Sharp;
+
 namespace RhinoGit
 {
    public class RhinoGitCommand : Command
    {
+      public static string gitPath;
+      public static string indexFileName = "index.json";
+
+      private static Repository _repo = null;
+      public static Repository repo
+      {
+         get
+         {
+            if (_repo == null)
+            {
+               gitPath = Repository.Init("C:\\DATA\\amit\\rgit\\gits\\alpha\\");
+               _repo = new Repository(RhinoGitCommand.gitPath);
+            }
+            return _repo;
+         }
+      }
+
       public RhinoGitCommand()
       {
          // Rhino only creates one instance of each command class defined in a
