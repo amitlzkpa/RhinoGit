@@ -22,7 +22,25 @@ namespace RhinoGit
 
       public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
       {
-         throw new NotImplementedException();
+         RGIndex rgi = value as RGIndex;
+         if(rgi == null)
+         {
+            throw new InvalidCastException();
+         }
+
+         writer.WriteStartObject();
+         writer.WritePropertyName("items");
+         writer.WriteStartArray();
+         foreach(RGItem ri in rgi.items)
+         {
+            writer.WriteStartObject();
+            writer.WritePropertyName("id");
+            writer.WriteValue(ri.id.ToString());
+            writer.WriteEndObject();
+         }
+         writer.WriteEndArray();
+         writer.WriteEndObject();
+
       }
    }
 }

@@ -15,7 +15,7 @@ namespace RhinoGit
 {
    public class RGIndex : ISerializable
    {
-      SortedList items = new SortedList();
+      public SortedList items = new SortedList();
 
       public RGIndex(IEnumerable<RhinoObject> rhos)
       {
