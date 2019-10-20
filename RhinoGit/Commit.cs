@@ -41,11 +41,14 @@ namespace RhinoGit
 
          try
          {
-            Rhino.Input.Custom.GetString s = new Rhino.Input.Custom.GetString();
-            commitMessgae = s.Get().ToString();
+            Rhino.Input.Custom.GetString gs = new Rhino.Input.Custom.GetString();
+            gs.SetCommandPrompt("Commit message");
+            gs.Get();
+            commitMessgae = gs.StringResult();
          } catch(Exception ex)
          {
-            commitMessgae = string.Empty;
+            RhinoApp.WriteLine(ex.ToString());
+            return Result.Failure;
          }
 
          if (string.IsNullOrEmpty(commitMessgae)) return Result.Cancel;
@@ -62,7 +65,7 @@ namespace RhinoGit
          repo.Index.Add(indexFileName);
          repo.Index.Write();
 
-         Signature author = new Signature("James", "@jugglingnutcase", DateTime.Now);
+         Signature author = new Signature("amit", "@amitlzkpa", DateTime.Now);
          Signature committer = author;
 
          LibGit2Sharp.Commit commit = repo.Commit(commitMessgae, author, committer);
