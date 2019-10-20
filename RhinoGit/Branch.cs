@@ -35,7 +35,7 @@ namespace RhinoGit
          try
          {
             Rhino.Input.Custom.GetString gs = new Rhino.Input.Custom.GetString();
-            gs.SetCommandPrompt("Source commit hash:");
+            gs.SetCommandPrompt("Name:");
             gs.Get();
             branchName = gs.StringResult();
          }
