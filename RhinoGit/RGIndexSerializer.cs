@@ -32,7 +32,7 @@ namespace RhinoGit
       }
 
 
-      public static RGIndex ReadJson(string jsonText)
+      public static RGIndex GetIndexFromText(string jsonText)
       {
          RGIndex rgi = new RGIndex();
          JObject jo = JObject.Parse(jsonText);
@@ -47,10 +47,11 @@ namespace RhinoGit
          return rgi;
       }
 
-      public static bool WriteJson(RGIndex rgi, string path)
+      public static string GetTextFromIndex(RGIndex rgi)
       {
          StringBuilder sb = new StringBuilder();
          StringWriter sw = new StringWriter(sb);
+         object o = null;
          using (JsonWriter writer = new JsonTextWriter(sw))
          {
             RGItem rgitem = null;
@@ -72,9 +73,9 @@ namespace RhinoGit
             }
             writer.WriteEndArray();
             writer.WriteEndObject();
-
+            o = sb.ToString();
          }
-         return true;
+         return o.ToString();
       }
 
 

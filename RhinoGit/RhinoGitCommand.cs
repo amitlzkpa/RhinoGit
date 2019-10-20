@@ -38,20 +38,20 @@ namespace RhinoGit
          RhinoApp.WriteLine($"The {EnglishName} working good!.");
 
          //// write
-         //RGIndex rgi = new RGIndex(doc.Objects);
-         //string json = JsonConvert.SerializeObject(rgi, Formatting.Indented, new RGIndexSerializer());
-         //string path = "C:\\DATA\\amit\\rgit\\files\\rgi.json";
-         //File.WriteAllText(path, json);
+         RGIndex rgi = new RGIndex(doc.Objects);
+         string path = "C:\\DATA\\amit\\rgit\\files\\rgi.json";
+         string json = RGIndexSerializer.GetTextFromIndex(rgi);
+         File.WriteAllText(path, json);
 
          // read
-         string path = "C:\\DATA\\amit\\rgit\\files\\rgi.json";
-         string json = File.ReadAllText(path);
-         RGIndex rgi = RGIndexSerializer.ReadJson(json);
-         foreach (Guid id in rgi.items.Keys)
-         {
-            GeometryBase gb = (rgi.items[id] as RGItem).geometry;
-            doc.Objects.Add(gb);
-         }
+         //string path = "C:\\DATA\\amit\\rgit\\files\\rgi.json";
+         //string json = File.ReadAllText(path);
+         //RGIndex rgi = RGIndexSerializer.ReadJson(json);
+         //foreach (Guid id in rgi.items.Keys)
+         //{
+         //   GeometryBase gb = (rgi.items[id] as RGItem).geometry;
+         //   doc.Objects.Add(gb);
+         //}
 
          return Result.Success;
       }
