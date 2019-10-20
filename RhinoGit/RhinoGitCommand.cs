@@ -8,6 +8,7 @@ using Rhino.Input;
 using Rhino.Input.Custom;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace RhinoGit
 {
@@ -36,11 +37,21 @@ namespace RhinoGit
       {
          RhinoApp.WriteLine($"The {EnglishName} working good!.");
 
-         RGIndex rgi = new RGIndex(doc.Objects);
-         string json = JsonConvert.SerializeObject(rgi, Formatting.Indented, new RGIndexSerializer());
+         //// write
+         //RGIndex rgi = new RGIndex(doc.Objects);
+         //string json = JsonConvert.SerializeObject(rgi, Formatting.Indented, new RGIndexSerializer());
+         //string path = "C:\\DATA\\amit\\rgit\\files\\rgi.json";
+         //File.WriteAllText(path, json);
 
+         // read
          string path = "C:\\DATA\\amit\\rgit\\files\\rgi.json";
-         File.WriteAllText(path, json);
+         string json = File.ReadAllText(path);
+         RGIndex rgi = RGIndexSerializer.ReadJson(json);
+         //foreach (RGItem item in rgi.items)
+         //{
+         //   GeometryBase gb = item.geometry;
+         //   doc.Objects.Add(gb);
+         //}
 
          return Result.Success;
       }

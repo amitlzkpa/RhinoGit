@@ -10,6 +10,8 @@ namespace RhinoGit
       public Guid id;
       public GeometryBase geometry;
 
+      public RGItem() { }
+
       public int CompareTo(object obj)
       {
          return ((IComparable)id).CompareTo(obj);
