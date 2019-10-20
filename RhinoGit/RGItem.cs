@@ -10,7 +10,6 @@ namespace RhinoGit
    {
       public Guid id;
       public string geometry;
-      public string attributes;
 
       public int CompareTo(object obj)
       {
