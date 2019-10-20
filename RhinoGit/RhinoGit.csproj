@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commit.cs" />
+    <Compile Include="Compare.cs" />
     <Compile Include="Diff.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="RGIndex.cs" />
