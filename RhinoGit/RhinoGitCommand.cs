@@ -38,10 +38,10 @@ namespace RhinoGit
          RhinoApp.WriteLine($"The {EnglishName} working good!.");
 
          //// write
-         RGIndex rgi = new RGIndex(doc.Objects);
-         string path = "C:\\DATA\\amit\\rgit\\files\\rgi.json";
-         string json = RGIndexSerializer.GetTextFromIndex(rgi);
-         File.WriteAllText(path, json);
+         //RGIndex rgi = new RGIndex(doc.Objects);
+         //string path = "C:\\DATA\\amit\\rgit\\files\\rgi.json";
+         //string json = RGIndexSerializer.GetTextFromIndex(rgi);
+         //File.WriteAllText(path, json);
 
          // read
          //string path = "C:\\DATA\\amit\\rgit\\files\\rgi.json";
