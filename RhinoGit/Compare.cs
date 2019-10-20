@@ -5,6 +5,8 @@ using System.IO;
 using System.Text;
 
 using Rhino;
+using Rhino.Geometry;
+using Rhino.DocObjects;
 using Rhino.Commands;
 
 using LibGit2Sharp;
@@ -52,10 +54,10 @@ namespace RhinoGit
 
          using (RhinoGitCommand.repo)
          {
-            foreach(LibGit2Sharp.Commit cm in RhinoGitCommand.repo.Commits)
-            {
-               RhinoApp.WriteLine(cm.ToString());
-            }
+
+            int idx_NEW = doc.Layers.Add("NEW", System.Drawing.Color.Green);
+            int idx_DEL = doc.Layers.Add("DELETED", System.Drawing.Color.Red);
+            int idx_MOD = doc.Layers.Add("MODIFIED", System.Drawing.Color.Purple);
 
             var commit = RhinoGitCommand.repo.Commits.Single(c => c.Sha.ToString().StartsWith(srcHash.ToString()));
             var file = commit[RhinoGitCommand.indexFileName];
@@ -64,11 +66,59 @@ namespace RhinoGit
             using (var content = new StreamReader(blob.GetContentStream(), Encoding.UTF8))
             {
                var fileContent = content.ReadToEnd();
-               RhinoApp.WriteLine(fileContent);
+
+               RGIndex srcIdx = RGIndexSerializer.GetIndexFromText(fileContent);
+               RGIndex newItemsList = new RGIndex(doc.Objects);
+               RGIndex currIdx = new RGIndex(doc.Objects);
+
+               foreach(Guid srcId in srcIdx.items.Keys)
+               {
+                  RGItem srcItem = srcIdx.items[srcId] as RGItem;
+                  if (!currIdx.items.ContainsKey(srcItem.id))
+                  {
+                     // deleted
+                     ObjectAttributes delAttr = new ObjectAttributes();
+                     delAttr.LayerIndex = idx_DEL;
+                     doc.Objects.Add(srcItem.geometry, delAttr);
+                  } else
+                  {
+                     GeometryBase srcGeom = srcItem.geometry;
+                     GeometryBase compGeom = (currIdx.items[srcItem.id] as RGItem).geometry;
+                     if (!GeometryBase.GeometryEquals(srcGeom, compGeom))
+                     {
+                        // modified
+                        ObjectAttributes modAttr = new ObjectAttributes();
+                        modAttr.LayerIndex = idx_MOD;
+                        doc.Objects.Add(srcGeom, modAttr);
+                        doc.Objects.Add(compGeom, modAttr);
+                        newItemsList.RemoveById(srcItem.id);
+                        continue;
+                     }
+                     newItemsList.RemoveById(srcItem.id);
+                  }
+               }
+
+               foreach(Guid newItemId in newItemsList.items.Keys)
+               {
+                  // new
+                  RGItem newItem = newItemsList.items[newItemId] as RGItem;
+                  ObjectAttributes newAttr = new ObjectAttributes();
+                  newAttr.LayerIndex = idx_NEW;
+                  doc.Objects.Add(newItem.geometry, newAttr);
+               }
+
+
+
             }
          }
 
          return Result.Success;
       }
+
+
+
+
+
+
    }
 }
