@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.IO;
 
 using Rhino.Geometry;
@@ -8,48 +9,8 @@ using Newtonsoft.Json.Linq;
 
 namespace RhinoGit
 {
-   class RGIndexSerializer : JsonConverter
-   {
-      public override bool CanConvert(Type objectType)
-      {
-         return typeof(RGIndex).IsAssignableFrom(objectType);
-      }
-
-      public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-      {
-         RGIndex rgi = existingValue as RGIndex;
-         object oo = reader;
-         string tt = reader.ReadAsString();
-         return rgi;
-      }
-
-      public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-      {
-         RGIndex rgi = value as RGIndex;
-         if(rgi == null)
-         {
-            throw new InvalidCastException();
-         }
-
-         RGItem rgitem = null;
-
-         writer.WriteStartObject();
-         writer.WritePropertyName("items");
-         writer.WriteStartArray();
-         foreach(Guid rid in rgi.items.Keys)
-         {
-            rgitem = rgi.items[rid] as RGItem;
-            writer.WriteStartObject();
-            writer.WritePropertyName("id");
-            writer.WriteValue(rgitem.id.ToString());
-            writer.WritePropertyName("geometry");
-            writer.WriteValue(GetStringFromGeometry(rgitem.geometry));
-            writer.WriteEndObject();
-         }
-         writer.WriteEndArray();
-         writer.WriteEndObject();
-
-      }
+   class RGIndexSerializer
+   { 
 
       private static string GetStringFromGeometry(GeometryBase gb)
       {
@@ -84,6 +45,36 @@ namespace RhinoGit
             rgi.Add(id, geom);
          }
          return rgi;
+      }
+
+      public static bool WriteJson(RGIndex rgi, string path)
+      {
+         StringBuilder sb = new StringBuilder();
+         StringWriter sw = new StringWriter(sb);
+         using (JsonWriter writer = new JsonTextWriter(sw))
+         {
+            RGItem rgitem = null;
+
+            writer.Formatting = Formatting.Indented;
+
+            writer.WriteStartObject();
+            writer.WritePropertyName("items");
+            writer.WriteStartArray();
+            foreach (Guid rid in rgi.items.Keys)
+            {
+               rgitem = rgi.items[rid] as RGItem;
+               writer.WriteStartObject();
+               writer.WritePropertyName("id");
+               writer.WriteValue(rgitem.id.ToString());
+               writer.WritePropertyName("geometry");
+               writer.WriteValue(GetStringFromGeometry(rgitem.geometry));
+               writer.WriteEndObject();
+            }
+            writer.WriteEndArray();
+            writer.WriteEndObject();
+
+         }
+         return true;
       }
 
 

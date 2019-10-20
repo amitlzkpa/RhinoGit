@@ -47,11 +47,11 @@ namespace RhinoGit
          string path = "C:\\DATA\\amit\\rgit\\files\\rgi.json";
          string json = File.ReadAllText(path);
          RGIndex rgi = RGIndexSerializer.ReadJson(json);
-         //foreach (RGItem item in rgi.items)
-         //{
-         //   GeometryBase gb = item.geometry;
-         //   doc.Objects.Add(gb);
-         //}
+         foreach (Guid id in rgi.items.Keys)
+         {
+            GeometryBase gb = (rgi.items[id] as RGItem).geometry;
+            doc.Objects.Add(gb);
+         }
 
          return Result.Success;
       }
