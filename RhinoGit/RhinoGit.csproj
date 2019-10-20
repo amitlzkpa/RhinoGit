@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RGIndex.cs" />
+    <Compile Include="RGIndexSerializer.cs" />
     <Compile Include="RGItem.cs" />
     <Compile Include="RhinoGitCommand.cs" />
     <Compile Include="RhinoGitPlugIn.cs" />

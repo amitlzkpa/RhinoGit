@@ -1,10 +1,13 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Rhino;
 using Rhino.Commands;
 using Rhino.Geometry;
 using Rhino.Input;
 using Rhino.Input.Custom;
+
+using Newtonsoft.Json;
 
 namespace RhinoGit
 {
@@ -32,6 +35,13 @@ namespace RhinoGit
       protected override Result RunCommand(RhinoDoc doc, RunMode mode)
       {
          RhinoApp.WriteLine($"The {EnglishName} working good!.");
+
+         RGIndex rgi = new RGIndex(doc.Objects);
+         string json = JsonConvert.SerializeObject(rgi, Formatting.Indented, new RGIndexSerializer());
+
+         string path = "C:\\DATA\\amit\\rgit\\files\\rgi.json";
+         File.WriteAllText(path, json);
+
          return Result.Success;
       }
    }

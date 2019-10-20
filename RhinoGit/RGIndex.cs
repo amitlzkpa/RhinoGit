@@ -23,6 +23,7 @@ namespace RhinoGit
       public bool Add(RhinoObject rho)
       {
          RGItem ri = new RGItem();
+         ri.id = rho.Id;
          items.Add(ri.id, ri);
          return true;
       }

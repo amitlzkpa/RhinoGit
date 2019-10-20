@@ -31,11 +31,11 @@ namespace RhinoGit
          writer.WriteStartObject();
          writer.WritePropertyName("items");
          writer.WriteStartArray();
-         foreach(RGItem ri in rgi.items)
+         foreach(Guid rid in rgi.items.Keys)
          {
             writer.WriteStartObject();
             writer.WritePropertyName("id");
-            writer.WriteValue(ri.id.ToString());
+            writer.WriteValue((rgi.items[rid] as RGItem).id.ToString());
             writer.WriteEndObject();
          }
          writer.WriteEndArray();
