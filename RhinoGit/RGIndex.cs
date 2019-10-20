@@ -24,6 +24,7 @@ namespace RhinoGit
       {
          RGItem ri = new RGItem();
          ri.id = rho.Id;
+         ri.geometry = rho.Geometry;
          items.Add(ri.id, ri);
          return true;
       }

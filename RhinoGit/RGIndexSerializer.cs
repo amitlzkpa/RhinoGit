@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+
+using Rhino.Geometry;
 
 using Newtonsoft.Json;
 
@@ -28,19 +27,36 @@ namespace RhinoGit
             throw new InvalidCastException();
          }
 
+         RGItem rgitem = null;
+
          writer.WriteStartObject();
          writer.WritePropertyName("items");
          writer.WriteStartArray();
          foreach(Guid rid in rgi.items.Keys)
          {
+            rgitem = rgi.items[rid] as RGItem;
             writer.WriteStartObject();
             writer.WritePropertyName("id");
-            writer.WriteValue((rgi.items[rid] as RGItem).id.ToString());
+            writer.WriteValue(rgitem.id.ToString());
+            writer.WritePropertyName("geometry");
+            writer.WriteValue(GetGeometryBaseString(rgitem.geometry));
             writer.WriteEndObject();
          }
          writer.WriteEndArray();
          writer.WriteEndObject();
 
       }
+
+      private string GetGeometryBaseString(GeometryBase gb)
+      {
+         System.Runtime.Serialization.Formatters.Binary.BinaryFormatter bf = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+         using (var ms = new MemoryStream())
+         {
+            bf.Serialize(ms, gb);
+            return Convert.ToBase64String(ms.ToArray());
+         }
+      }
+
+
    }
 }

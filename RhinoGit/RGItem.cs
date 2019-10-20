@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using Rhino.Geometry;
 
 namespace RhinoGit
 {
    class RGItem : IComparable
    {
       public Guid id;
-      public string geometry;
+      public GeometryBase geometry;
 
       public int CompareTo(object obj)
       {
