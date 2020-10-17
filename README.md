@@ -2,7 +2,7 @@
 
 Perfrom geometry based diffing operations on 3dm files.  
 
-{% include youtubeVideo.html %}
+[![Video](https://img.youtube.com/vi/3svhpU5o2hA/0.jpg)](https://www.youtube.com/watch?v=3svhpU5o2hA)
 
 ## Command List
 
