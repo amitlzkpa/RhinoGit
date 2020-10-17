@@ -1,7 +1,7 @@
 # RhinoGit
 
 Perfrom geometry based diffing operations on 3dm files.
-<iframe width="560" height="315" src="https://www.youtube.com/embed/3svhpU5o2hA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+{% include youtubePlayer.html id=page.youtubeId %}
 
 ## Command List
 
